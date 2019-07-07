@@ -11,7 +11,8 @@ import UIKit
 class ToDoListViewController: UITableViewController {
     
 //hard coded items to show up at start up
-    let itemArray = ["Chin Up", "Hustle", "Be Awesome"]
+    //edit UPDATE: MADE IT MUTABLE changed to var
+    var itemArray = ["Chin Up", "Hustle", "Be Awesome"]
     
     
 
@@ -61,8 +62,48 @@ class ToDoListViewController: UITableViewController {
     }
 
     
+//MARK --Add new items
     
     
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+//we're creating a var that can be accessed throughout this function that is equal to a UITextField(init) - which is an edible text field on our interface.
+        var alertLocalTextField = UITextField()
+        
+        
+        //1. Make a popup (UI Alert Controller show up)
+        let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
+        
+        //(this is the button you press when you're done writing your to do list item)
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            //what will happen once the user clicks the Add Item Button on our UIAlert
+            
+        //3. Append said text to the end of the item array
+            self.itemArray.append(alertLocalTextField.text ?? "")
+            
+        //The above code does add the new item, but the view still hasn't been updated, so:
+            self.tableView.reloadData()
+            
+        }
+        
+        //2. Have text field in said alert controller
+//lol this has to be above the below code otherwise the text field appears on top the alert
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create New Item"
+            
+//now we can set our local var above to equal this textField which has a smaller scope, there for making it have a bigger scope with the local variable
+            alertLocalTextField = alertTextField
+            
+        }
+        
+        
+//the below codes are inits for the above constants let ALERT and let ACTION. If you don't have this, nothing happens when you click the "add" button
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+        
+        
+    } //ends addButtonPressed
     
     
     
